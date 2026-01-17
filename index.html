@@ -1,18 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> 
-    <meta name="author" content="Pranay Sonaniya" >
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INDEX</title>
-    <style>
-        .heading{
-            background-color: magenta;
-            color: blue;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fund Raising Platform</title>
+
+<style>
+/* ===== Global ===== */
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI";
+    background: #f4f6f8;
+    color: #222;
+}
+
+/* ===== Header ===== */
+header {
+    background: #000;
+    color: #fff;
+    padding: 24px;
+    text-align: center;
+}
+
+/* ===== Sections ===== */
+section {
+    background: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 900px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+/* ===== Inputs ===== */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #000;
+}
+
+/* ===== Buttons ===== */
+button {
+    margin-top: 14px;
+    padding: 12px;
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #333;
+}
+
+button:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+/* ===== Campaign Card ===== */
+.campaign {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar {
+    background: #eee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 10px;
+    background: #4caf50;
+}
+
+/* ===== Donate Box ===== */
+.donate-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.donate-box input {
+    flex: 1;
+}
+
+/* ===== Payment Options ===== */
+.payment-options {
+    display: none;
+    margin-top: 12px;
+}
+
+.payment-options button {
+    width: auto;
+    padding: 10px 14px;
+    margin: 6px 6px 0 0;
+    font-size: 14px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    section {
+        margin: 10px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <h1 class="heading">My Portfolio</h1>
+
+<header>
+    <h1>Fund Raising Platform</h1>
+    <p>Support causes that matter ❤️</p>
+</header>
+
+<!-- ===== Hero Image ===== -->
+<section style="padding:0; border:none;">
+    <img 
+        src="https://www.cry.org/wp-content/uploads/donation-page-lp.webp"
+        alt="Helping Children"
+        style="width:100%; height:320px; object-fit:cover; border-radius:12px;"
+    >
+</section>
+
+<!-- ===== Create Campaign ===== -->
+<section>
+    <h2>Create Campaign</h2>
+    <input type="text" id="title" placeholder="Campaign Title">
+    <input type="number" id="goal" placeholder="Goal Amount (₹)">
+    <textarea id="desc" placeholder="Campaign Description"></textarea>
+    <button onclick="addCampaign()">Create Campaign</button>
+</section>
+
+<!-- ===== Active Campaigns ===== -->
+<section>
+    <h2>Active Campaigns</h2>
+    <div id="campaignList"></div>
+</section>
+
+<!-- ===== Gallery ===== -->
+<section>
+    <h2>Our Work & Smiles</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px;">
+        <img src="https://www.globalgiving.org/pfil/33835/pict_large.jpg"
+             style="width:100%; height:160px; object-fit:cover; border-radius:8px;" alt="image1">
+        <img src="https://www.actionaidindia.org/wp-content/uploads/2021/01/COVID-19-Crisis-Inside-Image.jpg"
+             style="width:100%; height:160px; object-fit:cover; border-radius:8px;">
+        <img src="https://i.guim.co.uk/img/static/sys-images/Guardian/Pix/pictures/2014/5/6/1399394549987/39bf6201-baf8-40f5-a5ab-9abfce1c9af1-2060x1236.jpeg?width=465&dpr=1&s=none&crop=none" 
+             style="width:100%; height:160px; object-fit:cover; border-radius:8px;">
+        <img src="https://cimages.milaap.org/milaap/image/upload/c_fill,g_faces,h_315,w_420/v1557424988/production/images/campaign/32300/kurnool_industrialist_mla_tg_bharath_sponsoring_food_cake_cutting_c27t5o_1557424990.jpg"
+             style="width:100%; height:160px; object-fit:cover; border-radius:8px;">
+    </div>
+</section>
+
+<script>
+
+
+let campaigns = JSON.parse(localStorage.getItem("campaigns")) || [];
+
+function saveData() {
+    localStorage.setItem("campaigns", JSON.stringify(campaigns));
+}
+
+function addCampaign() {
+    const title = titleInput.value.trim();
+    const goal = parseInt(goalInput.value);
+    const desc = descInput.value.trim();
+
+    if (!title || !desc || goal <= 0) {
+        alert("Please enter valid campaign details");
+        return;
+    }
+
+    campaigns.push({
+        id: Date.now(),
+        title,
+        goal,
+        raised: 0,
+        desc
+    });
+
+    saveData();
+    renderCampaigns();
+
+    titleInput.value = "";
+    goalInput.value = "";
+    descInput.value = "";
+}
+
+function donate(id, amount) {
+    if (amount <= 0) return alert("Enter valid donation amount");
+
+    const campaign = campaigns.find(c => c.id === id);
+    campaign.raised = Math.min(campaign.goal, campaign.raised + amount);
+
+    saveData();
+    renderCampaigns();
+}
+
+function deleteCampaign(id) {
+    if (!confirm("Delete this campaign?")) return;
+    campaigns = campaigns.filter(c => c.id !== id);
+    saveData();
+    renderCampaigns();
+}
+
+function showPaymentOptions(id) {
+    const amount = document.getElementById(`donate-${id}`).value;
+    document.getElementById(`payment-${id}`).style.display =
+        amount > 0 ? "block" : "none";
+}
+
+function pay(title, method) {
+    alert(`Payment Method: ${method}\nCampaign: ${title}\n\n(Demo Payment Flow)`);
+}
+
+function renderCampaigns() {
+    const list = document.getElementById("campaignList");
+    list.innerHTML = "";
+
+    campaigns.forEach(c => {
+        const percent = Math.min(100, Math.floor((c.raised / c.goal) * 100));
+        const completed = c.raised >= c.goal;
+
+        list.innerHTML += `
+        <div class="campaign">
+
+            <img src="https://www.shutterstock.com/editorial/image-editorial/M7T4Aa33M5T5Idw3NDU5NDU=/indian-orphan-children-study-their-room-balgran-440nw-10623542l.jpg"
+                 style="width:100%; height:220px; object-fit:cover; border-radius:8px;">
+
+            <h3>${c.title}</h3>
+            <p>${c.desc}</p>
+            <small>Raised ₹${c.raised} of ₹${c.goal}</small>
+
+            <div class="progress-bar">
+                <div class="progress" style="width:${percent}%"></div>
+            </div>
+
+            <small>${percent}% funded</small>
+
+            <div class="donate-box">
+                <input type="number" id="donate-${c.id}" placeholder="Amount ₹"
+                       oninput="showPaymentOptions(${c.id})">
+                <button ${completed ? "disabled" : ""}
+                        onclick="donate(${c.id},
+                        Number(document.getElementById('donate-${c.id}').value))">
+                    ${completed ? "Goal Reached 🎉" : "Donate"}
+                </button>
+            </div>
+
+            <div class="payment-options" id="payment-${c.id}">
+                <strong>Select Payment Method:</strong><br>
+                <button onclick="pay('${c.title}','UPI App')">📱 UPI App</button>
+                <button onclick="pay('${c.title}','Card')">💳 Card</button>
+                <button onclick="pay('${c.title}','Net Banking')">🏦 Net Banking</button>
+                <button onclick="pay('${c.title}','Cash')">💵 Cash</button>
+            </div>
+
+            <img src="https://i0.wp.com/www.nptechforgood.com/wp-content/uploads/2011/01/qrcode1.png"
+                 style="width:140px; height:140px; margin-top:10px; border:1px solid #ddd; border-radius:8px;">
+            <small>Scan QR to donate via UPI</small>
+
+            <button onclick="deleteCampaign(${c.id})"
+                    style="background:#d32f2f;">
+                Delete Campaign
+            </button>
+
+        </div>`;
+    });
+}
+
+const titleInput = document.getElementById("title");
+const goalInput = document.getElementById("goal");
+const descInput = document.getElementById("desc");
+
+renderCampaigns();
+</script>
+
 </body>
 </html>
