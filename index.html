@@ -6,23 +6,18 @@
 <title>Fund Raising Platform</title>
 
 <style>
-/* ===== Global ===== */
 body {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI";
     background: #f4f6f8;
     color: #222;
 }
-
-/* ===== Header ===== */
 header {
     background: #000;
     color: #fff;
     padding: 24px;
     text-align: center;
 }
-
-/* ===== Sections ===== */
 section {
     background: #fff;
     margin: 20px auto;
@@ -35,8 +30,6 @@ section {
 h2 {
     margin-top: 0;
 }
-
-/* ===== Inputs ===== */
 input, textarea {
     width: 100%;
     padding: 10px;
@@ -73,7 +66,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* ===== Campaign Card ===== */
+
 .campaign {
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -82,7 +75,7 @@ button:disabled {
     background: #fff;
 }
 
-/* ===== Progress Bar ===== */
+
 .progress-bar {
     background: #eee;
     border-radius: 20px;
@@ -95,7 +88,7 @@ button:disabled {
     background: #4caf50;
 }
 
-/* ===== Donate Box ===== */
+
 .donate-box {
     display: flex;
     gap: 10px;
@@ -107,7 +100,7 @@ button:disabled {
     flex: 1;
 }
 
-/* ===== Payment Options ===== */
+
 .payment-options {
     display: none;
     margin-top: 12px;
@@ -120,7 +113,7 @@ button:disabled {
     font-size: 14px;
 }
 
-/* ===== Responsive ===== */
+
 @media (max-width: 600px) {
     section {
         margin: 10px;
@@ -136,7 +129,6 @@ button:disabled {
     <p>Support causes that matter ❤️</p>
 </header>
 
-<!-- ===== Hero Image ===== -->
 <section style="padding:0; border:none;">
     <img 
         src="https://www.cry.org/wp-content/uploads/donation-page-lp.webp"
@@ -145,7 +137,6 @@ button:disabled {
     >
 </section>
 
-<!-- ===== Create Campaign ===== -->
 <section>
     <h2>Create Campaign</h2>
     <input type="text" id="title" placeholder="Campaign Title">
@@ -154,13 +145,13 @@ button:disabled {
     <button onclick="addCampaign()">Create Campaign</button>
 </section>
 
-<!-- ===== Active Campaigns ===== -->
+
 <section>
     <h2>Active Campaigns</h2>
     <div id="campaignList"></div>
 </section>
 
-<!-- ===== Gallery ===== -->
+
 <section>
     <h2>Our Work & Smiles</h2>
     <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px;">
